@@ -33,7 +33,6 @@ def main():
         print("\nerror: image not read from file \n\n")  # print error message to std out
         os.system("pause")                                  # pause so user can see error message
         return                                              # and exit program
-    # end if
 
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)           # detect plates
 
