@@ -8,7 +8,7 @@ import DetectChars
 import DetectPlates
 import PossiblePlate
 
-# module level variables ##########################################################################
+# module level variables
 SCALAR_BLACK = (0.0, 0.0, 0.0)
 SCALAR_WHITE = (255.0, 255.0, 255.0)
 SCALAR_YELLOW = (0.0, 255.0, 255.0)
@@ -17,28 +17,28 @@ SCALAR_RED = (0.0, 0.0, 255.0)
 
 showSteps = False
 
-###################################################################################################
+
 def main():
 
-    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()         # attempt KNN training
+    blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()         # KNN training
 
-    if blnKNNTrainingSuccessful == False:                               # if KNN training was not successful
-        print("\nerror: KNN traning was not successful\n")  # show error message
-        return                                                          # and exit program
+    if blnKNNTrainingSuccessful == False:
+        print("\nerror: KNN traning was not successful\n")
+        return
     # end if
 
-    imgOriginalScene  = cv2.imread("LicPlateImages/audi.png")               # open image
+    imgOriginalScene  = cv2.imread("LicPlateImages/audi.png")               # choose image to process
 
-    if imgOriginalScene is None:                            # if image was not read successfully
-        print("\nerror: image not read from file \n\n")  # print error message to std out
-        os.system("pause")                                  # pause so user can see error message
-        return                                              # and exit program
+    if imgOriginalScene is None:
+        print("\nerror: image not read from file \n\n")
+        os.system("pause")
+        return
 
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)           # detect plates
 
     listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)        # detect chars in plates
 
-    cv2.imshow("imgOriginalScene", imgOriginalScene)            # show scene image
+    cv2.imshow("imgOriginalScene", imgOriginalScene)            
 
     if len(listOfPossiblePlates) == 0:                          # if no plates were found
         print("\nno license plates were detected\n")  # inform user no plates were found

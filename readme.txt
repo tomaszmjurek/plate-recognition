@@ -1,2 +1,6 @@
-The video pretty much explains it all:
-https://www.youtube.com/watch?v=fJcl6Gw1D8k
+Required:
+ python==2.7
+ python-opencv==3.14
+
+Run using:
+ python Main.py

@@ -383,15 +383,10 @@ def removeInnerOverlappingChars(listOfMatchingChars):
                     else:                                                                       # else if other char is smaller than current char
                         if otherChar in listOfMatchingCharsWithInnerCharRemoved:                # if other char was not already removed on a previous pass . . .
                             listOfMatchingCharsWithInnerCharRemoved.remove(otherChar)           # then remove other char
-                        # end if
-                    # end if
-                # end if
-            # end if
-        # end for
-    # end for
+
 
     return listOfMatchingCharsWithInnerCharRemoved
-# end function
+
 
 ###################################################################################################
 # this is where we apply the actual char recognition
@@ -435,7 +430,6 @@ def recognizeCharsInPlate(imgThresh, listOfMatchingChars):
     # end if # show steps #########################################################################
 
     return strChars
-# end function
 
 
 
