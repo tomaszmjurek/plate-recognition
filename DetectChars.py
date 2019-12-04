@@ -72,6 +72,7 @@ def loadKNNDataAndTrainKNN():
     return True                             # if we got here training was successful so return true
 # end function
 
+'''
 ###################################################################################################
 def detectCharsInPlates(listOfPossiblePlates):
     intPlateCounter = 0
@@ -228,7 +229,7 @@ def detectCharsInPlates(listOfPossiblePlates):
 
     return listOfPossiblePlates
 # end function
-
+'''
 ###################################################################################################
 def findPossibleCharsInPlate(imgGrayscale, imgThresh):
     listOfPossibleChars = []                        # this will be the return value

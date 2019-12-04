@@ -11,13 +11,13 @@ import DetectChars
 import PossiblePlate
 import PossibleChar
 
-# module level variables ##########################################################################
+# module level variables
 PLATE_WIDTH_PADDING_FACTOR = 1.3
 PLATE_HEIGHT_PADDING_FACTOR = 1.5
 
-###################################################################################################
+#  Returns list of possible plates
 def detectPlatesInScene(imgOriginalScene):
-    listOfPossiblePlates = []                   # this will be the return value
+    listOfPossiblePlates = []
 
     height, width, numChannels = imgOriginalScene.shape
 
@@ -29,8 +29,8 @@ def detectPlatesInScene(imgOriginalScene):
 
     imgGrayscaleScene, imgThreshScene = Preprocess.preprocess(imgOriginalScene)         # preprocess to get grayscale and threshold images
 
-             # find all possible chars in the scene,
-            # this function first finds all contours, then only includes contours that could be chars (without comparison to other chars yet)
+     # find all possible chars in the scene,
+     # this function first finds all contours, then only includes contours that could be chars (without comparison to other chars yet)
     listOfPossibleCharsInScene = findPossibleCharsInScene(imgThreshScene)
 
     #         # given a list of all possible chars, find groups of matching chars
@@ -48,7 +48,6 @@ def detectPlatesInScene(imgOriginalScene):
 
     return listOfPossiblePlates
 
-###################################################################################################
 def findPossibleCharsInScene(imgThresh):
     listOfPossibleChars = []                # this will be the return value
 

@@ -25,7 +25,6 @@ def main():
     if blnKNNTrainingSuccessful == False:
         print("\nerror: KNN traning was not successful\n")
         return
-    # end if
 
     imgOriginalScene  = cv2.imread("LicPlateImages/audi.png")               # choose image to process
 
@@ -36,15 +35,15 @@ def main():
 
     listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)           # detect plates
 
-    listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)        # detect chars in plates
+#?
+    #listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)        # detect chars in plates
 
-    cv2.imshow("imgOriginalScene", imgOriginalScene)            
+    cv2.imshow("imgOriginalScene", imgOriginalScene)
 
     if len(listOfPossiblePlates) == 0:                          # if no plates were found
-        print("\nno license plates were detected\n")  # inform user no plates were found
-    else:                                                       # else
+        print("\nno license plates were detected\n")
+    else:
                 # if we get in here list of possible plates has at leat one plate
-
                 # sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
         listOfPossiblePlates.sort(key = lambda possiblePlate: len(possiblePlate.strChars), reverse = True)
 
@@ -53,7 +52,7 @@ def main():
 
         cv2.imshow("imgPlate", licPlate.imgPlate)           # show crop of plate and threshold of plate
         cv2.imwrite("ImgPlate.png", licPlate.imgPlate)
-        cv2.imshow("imgThresh", licPlate.imgThresh)
+        # cv2.imshow("imgThresh", licPlate.imgThresh)
 
         '''
         if len(licPlate.strChars) == 0:                     # if no chars were found in the plate
@@ -62,6 +61,7 @@ def main():
         # end if
         '''
         drawRedRectangleAroundPlate(imgOriginalScene, licPlate)             # draw red rectangle around plate
+        cv2.imshow("imgPlateDetected", imgOriginalScene)
 
         #print("\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
         #print("----------------------------------------")
