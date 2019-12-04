@@ -26,7 +26,7 @@ def main():
         print("\nerror: KNN traning was not successful\n")
         return
 
-    imgOriginalScene  = cv2.imread("LicPlateImages/audi.png")               # choose image to process
+    imgOriginalScene  = cv2.imread("LicPlateImages/bmw.jpg")               # choose image to process
 
     if imgOriginalScene is None:
         print("\nerror: image not read from file \n\n")

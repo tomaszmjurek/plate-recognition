@@ -3,8 +3,6 @@
 import cv2
 import numpy as np
 import math
-# import Main
-# import random
 
 import Preprocess
 import DetectChars
@@ -25,16 +23,16 @@ def detectPlatesInScene(imgOriginalScene):
     imgThreshScene = np.zeros((height, width, 1), np.uint8)
     imgContours = np.zeros((height, width, 3), np.uint8)
 
-    cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
 
     imgGrayscaleScene, imgThreshScene = Preprocess.preprocess(imgOriginalScene)         # preprocess to get grayscale and threshold images
 
-     # find all possible chars in the scene,
-     # this function first finds all contours, then only includes contours that could be chars (without comparison to other chars yet)
+
+     # first finds all contours, then only includes contours that could be chars (without comparison to other chars yet)
     listOfPossibleCharsInScene = findPossibleCharsInScene(imgThreshScene)
 
-    #         # given a list of all possible chars, find groups of matching chars
-            # in the next steps each group of matching chars will attempt to be recognized as a plate
+    # given a list of all possible chars, find groups of matching chars
+    # in the next steps each group of matching chars will attempt to be recognized as a plate
     listOfListsOfMatchingCharsInScene = DetectChars.findListOfListsOfMatchingChars(listOfPossibleCharsInScene)
 
 
@@ -45,7 +43,6 @@ def detectPlatesInScene(imgOriginalScene):
             listOfPossiblePlates.append(possiblePlate)                  # add to list of possible plates
 
     print("\n" + str(len(listOfPossiblePlates)) + " possible plates found")
-
     return listOfPossiblePlates
 
 def findPossibleCharsInScene(imgThresh):
@@ -70,7 +67,7 @@ def findPossibleCharsInScene(imgThresh):
 
     return listOfPossibleChars
 
-###################################################################################################
+    # Rotating plate
 def extractPlate(imgOriginal, listOfMatchingChars):
     possiblePlate = PossiblePlate.PossiblePlate()           # this will be the return value
 
