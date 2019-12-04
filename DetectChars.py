@@ -72,25 +72,6 @@ def loadKNNDataAndTrainKNN():
     return True                             # if we got here training was successful so return true
 # end function
 
-def findPossibleCharsInPlate(imgGrayscale, imgThresh):
-    listOfPossibleChars = []                        # this will be the return value
-    contours = []
-    imgThreshCopy = imgThresh.copy()
-
-            # find all contours in plate
-    imgContours, contours, npaHierarchy = cv2.findContours(imgThreshCopy, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-
-    for contour in contours:                        # for each contour
-        possibleChar = PossibleChar.PossibleChar(contour)
-
-        if checkIfPossibleChar(possibleChar):              # if contour is a possible char, note this does not compare to other chars (yet) . . .
-            listOfPossibleChars.append(possibleChar)       # add to list of possible chars
-        # end if
-    # end if
-
-    return listOfPossibleChars
-# end function
-
 ###################################################################################################
 def checkIfPossibleChar(possibleChar):
             # this function is a 'first pass' that does a rough check on a contour to see if it could be a char,
@@ -101,8 +82,6 @@ def checkIfPossibleChar(possibleChar):
         return True
     else:
         return False
-    # end if
-# end function
 
 ###################################################################################################
 def findListOfListsOfMatchingChars(listOfPossibleChars):
@@ -202,77 +181,6 @@ def angleBetweenChars(firstChar, secondChar):
     fltAngleInDeg = fltAngleInRad * (180.0 / math.pi)       # calculate angle in degrees
 
     return fltAngleInDeg
-# end function
-
-###################################################################################################
-# if we have two chars overlapping or to close to each other to possibly be separate chars, remove the inner (smaller) char,
-# this is to prevent including the same char twice if two contours are found for the same char,
-# for example for the letter 'O' both the inner ring and the outer ring may be found as contours, but we should only include the char once
-def removeInnerOverlappingChars(listOfMatchingChars):
-    listOfMatchingCharsWithInnerCharRemoved = list(listOfMatchingChars)                # this will be the return value
-
-    for currentChar in listOfMatchingChars:
-        for otherChar in listOfMatchingChars:
-            if currentChar != otherChar:        # if current char and other char are not the same char . . .
-                                                                            # if current char and other char have center points at almost the same location . . .
-                if distanceBetweenChars(currentChar, otherChar) < (currentChar.fltDiagonalSize * MIN_DIAG_SIZE_MULTIPLE_AWAY):
-                                # if we get in here we have found overlapping chars
-                                # next we identify which char is smaller, then if that char was not already removed on a previous pass, remove it
-                    if currentChar.intBoundingRectArea < otherChar.intBoundingRectArea:         # if current char is smaller than other char
-                        if currentChar in listOfMatchingCharsWithInnerCharRemoved:              # if current char was not already removed on a previous pass . . .
-                            listOfMatchingCharsWithInnerCharRemoved.remove(currentChar)         # then remove current char
-                        # end if
-                    else:                                                                       # else if other char is smaller than current char
-                        if otherChar in listOfMatchingCharsWithInnerCharRemoved:                # if other char was not already removed on a previous pass . . .
-                            listOfMatchingCharsWithInnerCharRemoved.remove(otherChar)           # then remove other char
-
-
-    return listOfMatchingCharsWithInnerCharRemoved
-
-
-###################################################################################################
-# this is where we apply the actual char recognition
-def recognizeCharsInPlate(imgThresh, listOfMatchingChars):
-    strChars = ""               # this will be the return value, the chars in the lic plate
-
-    height, width = imgThresh.shape
-
-    imgThreshColor = np.zeros((height, width, 3), np.uint8)
-
-    listOfMatchingChars.sort(key = lambda matchingChar: matchingChar.intCenterX)        # sort chars from left to right
-
-    cv2.cvtColor(imgThresh, cv2.COLOR_GRAY2BGR, imgThreshColor)                     # make color version of threshold image so we can draw contours in color on it
-
-    for currentChar in listOfMatchingChars:                                         # for each char in plate
-        pt1 = (currentChar.intBoundingRectX, currentChar.intBoundingRectY)
-        pt2 = ((currentChar.intBoundingRectX + currentChar.intBoundingRectWidth), (currentChar.intBoundingRectY + currentChar.intBoundingRectHeight))
-
-        cv2.rectangle(imgThreshColor, pt1, pt2, Main.SCALAR_GREEN, 2)           # draw green box around the char
-
-                # crop char out of threshold image
-        imgROI = imgThresh[currentChar.intBoundingRectY : currentChar.intBoundingRectY + currentChar.intBoundingRectHeight,
-                           currentChar.intBoundingRectX : currentChar.intBoundingRectX + currentChar.intBoundingRectWidth]
-
-        imgROIResized = cv2.resize(imgROI, (RESIZED_CHAR_IMAGE_WIDTH, RESIZED_CHAR_IMAGE_HEIGHT))           # resize image, this is necessary for char recognition
-
-        npaROIResized = imgROIResized.reshape((1, RESIZED_CHAR_IMAGE_WIDTH * RESIZED_CHAR_IMAGE_HEIGHT))        # flatten image into 1d numpy array
-
-        npaROIResized = np.float32(npaROIResized)               # convert from 1d numpy array of ints to 1d numpy array of floats
-
-        retval, npaResults, neigh_resp, dists = kNearest.findNearest(npaROIResized, k = 1)              # finally we can call findNearest !!!
-
-        strCurrentChar = str(chr(int(npaResults[0][0])))            # get character from results
-
-        strChars = strChars + strCurrentChar                        # append current char to full string
-
-    # end for
-
-    if Main.showSteps == True: # show steps #######################################################
-        cv2.imshow("10", imgThreshColor)
-    # end if # show steps #########################################################################
-
-    return strChars
-
 
 
 

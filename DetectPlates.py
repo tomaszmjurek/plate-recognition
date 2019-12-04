@@ -3,8 +3,8 @@
 import cv2
 import numpy as np
 import math
-import Main
-import random
+# import Main
+# import random
 
 import Preprocess
 import DetectChars
