@@ -3,4 +3,4 @@ Required:
  python-opencv==3.14
 
 Run using:
- python Main.py
+ python Main.py <image>
