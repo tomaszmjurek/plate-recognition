@@ -59,7 +59,7 @@ new_image = cv2.bitwise_and(img,img,mask=mask)
 Cropped = gray[topx:bottomx+1, topy:bottomy+1]
 cv2.imshow('cropped', Cropped)
 
-threshGauss = cv2.adaptiveThreshold(border, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 51, 27)
+threshGauss = cv2.adaptiveThreshold(Cropped, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 51, 27)
 cv2.imshow('tv1', threshGauss)
 #threshGauss = cv2.medianBlur(threshGauss, 3)
 #cv2.imshow('tv2', threshGauss)
