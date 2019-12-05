@@ -21,4 +21,4 @@ def ocr (croppedImage):
 
     plate = ''.join(cleanText)
 
-    print(plate)
+    print "Odczytano:", plate
