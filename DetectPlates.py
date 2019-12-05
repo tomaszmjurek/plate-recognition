@@ -25,25 +25,26 @@ def detectPlatesInScene(imgOriginalScene):
 
     # cv2.destroyAllWindows()
 
+    # 1. Przetworzenie zdjecia
     imgGrayscaleScene, imgThreshScene = Preprocess.preprocess(imgOriginalScene)         # preprocess to get grayscale and threshold images
 
-
-     # first finds all contours, then only includes contours that could be chars (without comparison to other chars yet)
+    # 2. Znajdywanie potencjalnego tekstu na zdjeciu - wycwiczona funkcja porownuje zdjecie ze zbiorem znakow, grupuje je
+    # find all contours, then only include contours that could be chars
     listOfPossibleCharsInScene = findPossibleCharsInScene(imgThreshScene)
 
+    # 3. Za krotkie ciagi sa odrzucane, reszta traktowana jako potencjalne tablice.
     # given a list of all possible chars, find groups of matching chars
-    # in the next steps each group of matching chars will attempt to be recognized as a plate
     listOfListsOfMatchingCharsInScene = DetectChars.findListOfListsOfMatchingChars(listOfPossibleCharsInScene)
 
-
     for listOfMatchingChars in listOfListsOfMatchingCharsInScene:                   # for each group of matching chars
-        possiblePlate = extractPlate(imgOriginalScene, listOfMatchingChars)         # attempt to extract plate
+        possiblePlate = rotatePlate(imgOriginalScene, listOfMatchingChars)         # attempt to extract plate
 
         if possiblePlate.imgPlate is not None:                          # if plate was found
             listOfPossiblePlates.append(possiblePlate)                  # add to list of possible plates
 
     print("\n" + str(len(listOfPossiblePlates)) + " possible plates found")
     return listOfPossiblePlates
+
 
 def findPossibleCharsInScene(imgThresh):
     listOfPossibleChars = []                # this will be the return value
@@ -67,8 +68,10 @@ def findPossibleCharsInScene(imgThresh):
 
     return listOfPossibleChars
 
-    # Rotating plate
-def extractPlate(imgOriginal, listOfMatchingChars):
+
+# Rotating possible plate
+############################################################
+def rotatePlate(imgOriginal, listOfMatchingChars):
     possiblePlate = PossiblePlate.PossiblePlate()           # this will be the return value
 
     listOfMatchingChars.sort(key = lambda matchingChar: matchingChar.intCenterX)        # sort chars from left to right based on x position

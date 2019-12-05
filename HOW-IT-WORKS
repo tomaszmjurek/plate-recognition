@@ -1,10 +1,8 @@
 1. Wczytanie zdjecia
-2. KNN Training
-3. Wykrywanie mozliwych tablic
- 3.1. Przetwarzanie zdjecia: odcienie szarosci, tresh
- 3.2. Znajduje kontury, na tej podstawie mozliwe znaki (checkIfPossibleChar(?))
-
-  3.2.1. Porownuje do duzej listy dostepnych, jesli tekst jest krotszy niz przewidywany (...) to odrzucany
-
+2. Wykrywanie mozliwych tablic
+ 2.1. Przetwarzanie zdjecia: odcienie szarosci, tresh, kontury
+ 2.2. Na tej podstawie sprawdza czy zdjecie zawiera mozliwe znaki. Funkcja (wycwiczona) posiada duzy zbior znakow i znajduje te potencjalne ciagi.
+ 2.3. Jesli ciag znakow jest za krotki jest odrzucany. Reszta traktowana jest jako potencjalne tablice.
 4. Z listy mozliwych tablic wybiera ta z najwieksza iloscia znakow jako docelowa
+5. Otrzymana tablica jest eksportowana nastepnie nastepuje jej odczytanie.
 

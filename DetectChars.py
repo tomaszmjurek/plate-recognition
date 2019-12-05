@@ -43,7 +43,7 @@ RESIZED_CHAR_IMAGE_HEIGHT = 30
 MIN_CONTOUR_AREA = 100
 
 ###################################################################################################
-def loadKNNDataAndTrainKNN():
+def loadKNNData():
     allContoursWithData = []                # declare empty lists,
     validContoursWithData = []              # we will fill these shortly
 

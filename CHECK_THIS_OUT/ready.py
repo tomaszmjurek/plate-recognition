@@ -12,13 +12,13 @@ var = sys.argv[1]
 img = cv2.imread(var)
 
 img = cv2.resize(img, (620,480) )
-#cv2.imshow('1', img)
+cv2.imshow('1', img)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #convert to grey scale
-#cv2.imshow('2', gray)
+cv2.imshow('2', gray)
 gray = cv2.bilateralFilter(gray, 11, 17, 17) #Blur to reduce noise
-#cv2.imshow('3', gray)
+cv2.imshow('3', gray)
 edged = cv2.Canny(gray, 50, 150, apertureSize=3) #Perform Edge detection
-#cv2.imshow('4', edged)
+cv2.imshow('4', edged)
 # find contours in the edged image, keep only the largest
 # ones, and initialize our screen contour
 cnts = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -62,7 +62,7 @@ cv2.imshow('cropped', Cropped)
 threshGauss = cv2.adaptiveThreshold(Cropped, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 51, 27)
 cv2.imshow('tv1', threshGauss)
 #threshGauss = cv2.medianBlur(threshGauss, 3)
-#cv2.imshow('tv2', threshGauss)
+cv2.imshow('tv2', threshGauss)
 
 # OCR
 config = '-l eng --oem 1 --psm 3'
