@@ -51,7 +51,7 @@ def main():
         cv2.imwrite("ImgPlate.png", licPlate.imgPlate)
 	
 	# 4. Text recognition
-	Ocr.ocr(licPlate.imgPlate)	# text detection
+    #	Ocr.ocr(licPlate.imgPlate)	# text detection
 
         drawRedRectangleAroundPlate(imgOriginalScene, licPlate)             # draw red rectangle around plate
         cv2.imshow("imgPlateDetected", imgOriginalScene)        # show original with rectangle
