@@ -7,6 +7,7 @@ import os
 import DetectChars
 import DetectPlates
 import PossiblePlate
+import Ocr
 import sys
 
 # module level variables
@@ -48,6 +49,9 @@ def main():
 
         cv2.imshow("imgPlate", licPlate.imgPlate)           # show and save crop of plate
         cv2.imwrite("ImgPlate.png", licPlate.imgPlate)
+	
+	# 4. Text recognition
+	Ocr.ocr(licPlate.imgPlate)	# text detection
 
         drawRedRectangleAroundPlate(imgOriginalScene, licPlate)             # draw red rectangle around plate
         cv2.imshow("imgPlateDetected", imgOriginalScene)        # show original with rectangle

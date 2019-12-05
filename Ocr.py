@@ -22,5 +22,3 @@ def ocr (croppedImage):
     plate = ''.join(cleanText)
 
     print(plate)
-
-    cv2.imshow('croppedImage',croppedImage)
